@@ -1,0 +1,12 @@
+{
+  "name": "test_connect",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "load-grunt-tasks": "~0.3.0"
+  },
+  "dependencies": {
+    "connect": "^3.4.0"
+  }
+}
