@@ -53,12 +53,18 @@ module.exports = function(grunt, config) {
   var options = config;
   //console.log(options.port);
   var app = connect();
- 
+  // gzip/deflate outgoing responses
+  var compression = require('compression');
+  app.use(compression());
+  // parse urlencoded request bodies into req.body
+  var bodyParser = require('body-parser');
+  app.use(bodyParser.urlencoded());
+
   app.use(function(req, res, next) {
-    res.end("hello connect！");
+    res.end("hello connect!");
   });
   //console.log(http);
-  http.createServer(app).listen(options.port,options.hostname);
+  http.createServer(app).listen(options.port, options.hostname);
 
 
 

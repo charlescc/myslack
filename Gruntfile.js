@@ -49,7 +49,8 @@ module.exports = function(grunt) {
 	//grunt.loadNpmTasks();
 	require('load-grunt-tasks')(grunt);
 	//默认任务
-	grunt.registerTask('slack_server','',function(){
+	grunt.registerTask('slack_server','slack server',function(){
+		var path=require('path');
 		var action = require('./slack_server')(grunt,{
 			port:9000,
 			hostname:'localhost',
@@ -57,8 +58,9 @@ module.exports = function(grunt) {
 				'app'
 			]
 		});
-		console.log(action);
-		action();
+		//console.log(path.resolve('./slack_server.js'));
+		//console.log(action);
+		//action();
 
 	});
 	grunt.registerTask('serve', [
