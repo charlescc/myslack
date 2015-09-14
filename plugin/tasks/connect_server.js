@@ -7,7 +7,11 @@
  */
 
 'use strict';
- 
+var fs = require('fs');
+var url = require('url');
+var path = require('path');
+var http = require('http');
+var connect=require('connect');
 module.exports = function(grunt) {
 
   // Please see the Grunt documentation for more information regarding task
@@ -15,13 +19,13 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('connect_server', 'The best Grunt plugin ever.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
+    /*var options = this.options({
       punctuation: '.',
       separator: ', '
-    });
+    });*/
 
     // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
+    /*this.files.forEach(function(f) {
       // Concat specified files.
       var src = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
@@ -44,7 +48,21 @@ module.exports = function(grunt) {
 
       // Print a success message.
       grunt.log.writeln('File "' + f.dest + '" created.');
+    });*/
+    
+    var options = this.options({
+      root_index:'../htdocs/',
+      port:3000,
     });
+    console.log(options.port);
+    var app=connect();
+    app.use(function (req,res,next){
+      res.end("hello connect！");
+    });
+    http.createServer(app).listen(options.port);
+
+
+
   });
 
 };

@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
-        '<%= nodeunit.tests %>'
+       // '<%= nodeunit.tests %>'
       ],
       options: {
         jshintrc: '.jshintrc'
@@ -30,6 +30,26 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     connect_server: {
+      default_options: {
+        options: {
+
+        },
+        files: {
+          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+        }
+      },
+      custom_options: {
+        options: {
+          root_index:'../htdocs',
+          port:80
+
+        },
+        files: {
+          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+        }
+      }
+    },
+    /*connect_server: {
       default_options: {
         options: {
         },
@@ -46,12 +66,12 @@ module.exports = function(grunt) {
           'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
         }
       }
-    },
+    },*/
 
     // Unit tests.
-    nodeunit: {
-      tests: ['test/*_test.js']
-    }
+    //nodeunit: {
+      //tests: ['test/*_test.js']
+    //}
 
   });
 
@@ -61,11 +81,11 @@ module.exports = function(grunt) {
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  //grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'connect_server', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'connect_server']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
