@@ -50,6 +50,7 @@ module.exports = function(grunt, config) {
   var path = require('path');
   var http = require('http');
   var connect = require('connect');
+
   var options = config;
   //console.log(options.port);
   var app = connect();
@@ -57,16 +58,74 @@ module.exports = function(grunt, config) {
   var compression = require('compression');
   app.use(compression());
   // parse urlencoded request bodies into req.body
-  var bodyParser = require('body-parser');
-  app.use(bodyParser.urlencoded());
+  //var bodyParser = require('body-parser');
+  //app.use(bodyParser());
 
-  app.use(function(req, res, next) {
-    res.end("hello connect!");
+
+
+  app.use('/', function(req, res, next) {
+    //res.end("hello connect!");
+    res.write('<h1>Welcome to Slack </h1>');
+
   });
   //console.log(http);
-  http.createServer(app).listen(options.port, options.hostname);
+  var server = http.createServer(app);
+  server.listen(options.port, options.hostname);
+  var io = require('socket.io')(server);
+
+  var onlineUsers = {};
+  var userCount = 0;
+  io.on('connection', function(socket) {
+    console.log('new user connected');
+    socket.on('login', function(obj) {
+      socket.name = obj.userid;
+      //检查在线列表，如果不在里面就加入
+      if (!onlineUsers.hasOwnProperty(obj.userid)) {
+        onlineUsers[obj.userid] = obj.username;
+        //在线人数+1
+        onlineCount++;
+      }
+      io.emit('login', {
+        onlineUsers: onlineUsers,
+        onlineCount: onlineCount,
+        user: obj
+      });
+      console.log(obj.username + '加入了聊天室');
+    });
+    //监听用户退出
+    socket.on('disconnect', function() {
+      //将退出的用户从在线列表中删除
+      if (onlineUsers.hasOwnProperty(socket.name)) {
+        //退出用户的信息
+        var obj = {
+          userid: socket.name,
+          username: onlineUsers[socket.name]
+        };
+
+        //删除
+        delete onlineUsers[socket.name];
+        //在线人数-1
+        onlineCount--;
+
+        //向所有客户端广播用户退出
+        io.emit('logout', {
+          onlineUsers: onlineUsers,
+          onlineCount: onlineCount,
+          user: obj
+        });
+        console.log(obj.username + '退出了聊天室');
+      }
+    });
+
+    //监听用户发布聊天内容
+    socket.on('message', function(obj) {
+      //向所有客户端广播发布的消息
+      io.emit('message', obj);
+      console.log(obj.username + '说：' + obj.content);
+    });
 
 
+  });
 
   //});
 
