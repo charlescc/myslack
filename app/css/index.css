@@ -172,3 +172,59 @@ html{
     margin-right: -10px;
     vertical-align: middle;
 }
+.left_nav{
+	width: 300px;
+	height:100%;
+	position: fixed;
+	padding-top: 50px;
+	left:0;
+	top:0;
+	background-color: rgba(27,23,23,0.94); 
+	overflow: auto;
+	color: white;
+}
+.nav_bottom{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 300px;
+    height: 100px;
+	background-color:rgba(8,8,10,0.32); 
+}
+.head_img{
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: url("../img/head.jpeg") no-repeat center;
+	background-size: contain;
+	vertical-align: middle;
+}
+.nav_bottom:before{
+	display: inline-block;
+	content: "";
+	height:100%;
+	width: 30px;
+	vertical-align: middle;
+}
+#user_info{
+	display: inline-block;
+	width: 100px;
+	height: 80px;
+	line-height:80px;
+	vertical-align: middle;
+	padding-top: 20px;
+    box-sizing: border-box;
+    margin-left: 15px;
+}
+#info_name{
+	font-size: 20px;
+	line-height: 20px;
+	height:20px;
+	font-weight: 600;
+}
+#info_status{
+   font-size: 15px;
+   height: 20px;
+   line-height: 20px;
+}

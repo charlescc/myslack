@@ -52,6 +52,13 @@ module.exports = function(grunt, config) {
   var connect = require('connect');
 
   var options = config;
+ /*var options = {
+      port:9000,
+      hostname:'localhost',
+      base:[
+        'app'
+      ]
+    }*/
   //console.log(options.port);
   var app = connect();
   // gzip/deflate outgoing responses
@@ -65,16 +72,16 @@ module.exports = function(grunt, config) {
 
   app.use('/', function(req, res, next) {
     //res.end("hello connect!");
-    res.write('<h1>Welcome to Slack </h1>');
+    //res.write('<h1>Welcome to Slack </h1>');
 
   });
   //console.log(http);
   var server = http.createServer(app);
-  server.listen(options.port, options.hostname);
+  server.listen(options.port,options.hostname);
   var io = require('socket.io')(server);
 
   var onlineUsers = {};
-  var userCount = 0;
+  var onlineCount = 0;
   io.on('connection', function(socket) {
     console.log('new user connected');
     socket.on('login', function(obj) {

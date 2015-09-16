@@ -4,13 +4,14 @@
 		<title>slack realtime</title>
 		<meta charset="utf-8">
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+		<link rel="stylesheet" type="text/css" href="./template/aside_Nav.css" />
 		<link rel="stylesheet" type="text/css" href="./css/font-awesome.css" />
 		<link rel="stylesheet" type="text/css" href="./css/index.css" />
 	</head>
 	<body ng-controller='myController'>
-		<div class='background'></div>
-		<div class='loginbox'>
-			<ng-form name='login_form' ng-submit=''>
+		<div class='background' ng-show='showLogin'></div>
+		<div class='loginbox' ng-show='showLogin'>
+			<form name='login_form'  ng-submit='userSubmit()'>
 			<ul class='login_ul'>
 				<li class='login_item' >
 					{{user.key}}<br/>
@@ -27,11 +28,27 @@
 			<span id='submit_icon_area'>
 			<input type='submit'  class='icon_button blue'  value='Join Slack'  ng-disabled='login_form.$invalid'/>
 		    </span>
-			</ng-form>
+			</form>
 		</div>
-		<div class='realtimebox'></div>
+		<div class='realtimebox'>
+			<div class='left_nav'>
+				<accordion>
+					<expander ng-repeat='group in user_groups' group-title='group.channel' image-items='group.members'></expander>
+				</accordion>
+				<div class='nav_bottom'>
+					<div class='head_img'></div>
+					<div id='user_info'>
+						<span id='info_name'>{{user.name}}</span><br/>
+						<span id='info_status'><i class='icon-circle highlight'></i>&nbsp;&nbsp;Online</span>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
 	</body>
 	<script src="./js/socket.io.js"></script>
 	<script src='./js/angular.js'></script>
+	<script src='./directive.js'></script>
 	<script src='./index.js'></script>
 </html>

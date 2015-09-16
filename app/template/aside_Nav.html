@@ -1,0 +1,8 @@
+<aside class='accordion-group' >	
+	<div class='group-head' ng-click='toggleList($event)' >&nbsp;&nbsp;#&nbsp;{{title}}</div>
+	<ul class='group-list' ng-show='showList'>
+		<li class='group-item' ng-repeat='item in image_items'>
+			&nbsp;&nbsp;<i class="icon-circle" ng-class="{'highlight':item.highlight}"></i></span><span class='res-name'>{{item.name}}</span>
+		</li>
+	</ul>
+</aside>
