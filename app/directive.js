@@ -31,11 +31,15 @@ app.directive('expander', function() {
 			title: '=groupTitle',
 			//title_id: '=imageExpanderIndex',
 			image_items: '=imageItems'
+			
 		},
 		require:'^?accordion',
 		link: function(scope, element, attrs,accordionController) {
 			//console.log(scope);
 			accordionController.addExpander(scope);
+			if(scope.title == 'default'){
+				scope.showList=true;
+			}
 			scope.toggleList = function(e) {
 				e.stopPropagation();
 				accordionController.gotOpened(scope);

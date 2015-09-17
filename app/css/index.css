@@ -1,3 +1,4 @@
+
 html{
 	font-size: 13px;
 	font-family: Helvetica, Arial, sans-serif;
@@ -26,6 +27,17 @@ html{
 	        transform:translate(-50%,-50%);
 
 
+}
+.out{
+	top:-100%; 
+}
+@keyframes flyin{
+	from {top:-100%;}
+	to {top:40%;}
+}
+.in{
+	animation:flyin 1s ease-out 1;
+	top: 40%;
 }
 .login_ul{
 	position: absolute;
@@ -171,6 +183,7 @@ html{
     border: 1px solid #ccc;
     margin-right: -10px;
     vertical-align: middle;
+    box-sizing:content-box;
 }
 .left_nav{
 	width: 300px;
@@ -216,6 +229,11 @@ html{
 	padding-top: 20px;
     box-sizing: border-box;
     margin-left: 15px;
+    margin-right: 15px;
+}
+#addChannel_icon{
+	display: inline-block;
+	vertical-align: middle;
 }
 #info_name{
 	font-size: 20px;
@@ -228,3 +246,100 @@ html{
    height: 20px;
    line-height: 20px;
 }
+.box_body{
+	position: fixed;  
+    top: 0;
+    left: 300px;
+    width: 100%;
+    height: 100%;
+    padding-right: 300px;
+    overflow: hidden;
+
+
+}
+#editor{
+	min-width:300px;
+	width: 80%;
+	display: inline-block;
+	vertical-align: middle;
+}
+#msg_container{
+	height: 70%;
+    /* width: 100%; */
+    width: 100%;
+    padding: 15px 40px;
+    overflow: auto;
+}
+#msg_container ul{
+	padding:10px 50px;
+}
+#editor_container{
+	position: fixed;
+	width: 100%;
+    left:320px;
+	bottom: 5px;
+	padding-top: 20px;
+	border-top: thin solid grey;
+	padding-right: 300px;
+
+}
+#submit_icon{
+	display: inline-block;
+	vertical-align: middle;
+	height:150px;
+	width: 150px;
+	line-height: 150px;
+	font-size: 30px;
+	font-weight: 700;
+}
+.msg{
+	list-style: none;
+	width: 100%;
+	padding: 15px 10px;
+	position: relative;
+}
+.msg_username{
+	margin:0 10px 0 10px;
+	height:20px;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 20px;
+
+}
+.msg_time{
+	color: grey;
+	font-size: 17px;
+	line-height: 21px;
+
+}
+
+.msg_content{
+	margin-top: -15px;
+}
+.msg_img{
+	height:50px;
+	width: 50px;
+	border: thin solid grey;
+}
+.clear{
+	clear:both;
+	zoom:1;
+}
+._right{
+	float: right;
+	margin-right: 50px;
+
+}
+._left{
+	float: left;
+	margin-left: 50px;
+
+}
+@keyframes  myrotate{
+	0 {transform:rotate(0deg);}
+
+	100% {transform:rotate(90deg);}
+}
+#addChannel_icon:hover{
+	animation:myrotate 0.1s linear 1;
+};

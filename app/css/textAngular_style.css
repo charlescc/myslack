@@ -1,0 +1,19 @@
+.ta-toolbar {
+    background-color: #F0F0F0;
+    padding: 10px 10px 5px;
+    margin-left: 0px;
+    border: 1px solid #EEE;
+}
+.ta-toolbar i,.ta-toolbar button{
+	line-height: 21px;
+}
+.ta-scroll-window > .ta-bind {
+	height: auto;
+    max-height:150px;
+    min-height: 100px;
+    overflow: auto;
+    outline: none;
+}
+.ta-editor.ta-html, .ta-scroll-window.form-control{
+	min-height: 150px;
+}

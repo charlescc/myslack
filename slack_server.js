@@ -52,13 +52,13 @@ module.exports = function(grunt, config) {
   var connect = require('connect');
 
   var options = config;
- /*var options = {
-      port:9000,
-      hostname:'localhost',
-      base:[
-        'app'
-      ]
-    }*/
+  /*var options = {
+       port:9000,
+       hostname:'localhost',
+       base:[
+         'app'
+       ]
+     }*/
   //console.log(options.port);
   var app = connect();
   // gzip/deflate outgoing responses
@@ -77,7 +77,7 @@ module.exports = function(grunt, config) {
   });
   //console.log(http);
   var server = http.createServer(app);
-  server.listen(options.port,options.hostname);
+  server.listen(options.port, options.hostname);
   var io = require('socket.io')(server);
 
   var onlineUsers = {};
@@ -86,22 +86,46 @@ module.exports = function(grunt, config) {
     console.log('new user connected');
     socket.on('login', function(obj) {
       socket.name = obj.userid;
+      var channel = obj.channel;
       //检查在线列表，如果不在里面就加入
-      if (!onlineUsers.hasOwnProperty(obj.userid)) {
-        onlineUsers[obj.userid] = obj.username;
-        //在线人数+1
-        onlineCount++;
+      // if (!onlineUsers[channel].hasOwnProperty(obj.userid)) {
+      // onlineUsers[obj.userid] = obj.username;
+      //在线人数+1
+      //onlineCount++;
+      //}
+      if (!onlineUsers.hasOwnProperty(channel)) {
+        onlineUsers[channel] = {};
+
       }
+      if (!onlineUsers[channel].hasOwnProperty(obj.userid)) {
+        onlineUsers[channel][obj.userid] = obj.username;
+      }
+      //在线人数+1
+      onlineCount++;
       io.emit('login', {
         onlineUsers: onlineUsers,
         onlineCount: onlineCount,
         user: obj
       });
-      console.log(obj.username + '加入了聊天室');
+      
+      console.log(obj.username + '加入了聊天室,在线人数为'+onlineCount);
     });
-    //监听用户退出
+    socket.on('newchannel', function(obj) {
+        if (!onlineUsers.hasOwnProperty(obj.channel)) {
+          onlineUsers[obj.channel] = {};
+          io.emit('newchannel', {
+            onlineUsers: onlineUsers,
+            onlineCount: onlineCount,
+            user: obj
+          });
+          console.log(obj.username+'添加了channel '+obj.channel);
+        }
+
+      });
+      //监听用户退出
     socket.on('disconnect', function() {
       //将退出的用户从在线列表中删除
+      /*
       if (onlineUsers.hasOwnProperty(socket.name)) {
         //退出用户的信息
         var obj = {
@@ -121,14 +145,42 @@ module.exports = function(grunt, config) {
           user: obj
         });
         console.log(obj.username + '退出了聊天室');
+      }*/
+      //将退出的用户从在线列表中删除
+      for (var x in onlineUsers) {
+        if (onlineUsers.hasOwnProperty(x)) {
+          //访问每个在线的channel
+          if (onlineUsers[x].hasOwnProperty(socket.name)) {
+            //退出用户的信息
+            var obj = {
+              userid: socket.name,
+              username: onlineUsers[x][socket.name],
+
+            };
+            //删除
+            delete onlineUsers[x][socket.name];
+
+          }
+
+        }
+
       }
+      onlineCount--;
+      //向所有客户端广播用户退出
+      io.emit('logout', {
+        onlineUsers: onlineUsers,
+        onlineCount: onlineCount,
+        user: obj
+      });
+      console.log(obj.username + '退出了聊天室,在线人数为'+onlineCount);
+
     });
 
     //监听用户发布聊天内容
     socket.on('message', function(obj) {
       //向所有客户端广播发布的消息
       io.emit('message', obj);
-      console.log(obj.username + '说：' + obj.content);
+      console.log(obj.username + '在' + obj.channel + 'channel中说：' + obj.content);
     });
 
 

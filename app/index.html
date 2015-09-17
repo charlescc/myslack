@@ -4,21 +4,62 @@
 		<title>slack realtime</title>
 		<meta charset="utf-8">
 		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
-		<link rel="stylesheet" type="text/css" href="./template/aside_Nav.css" />
+		
 		<link rel="stylesheet" type="text/css" href="./css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="./css/textAngular.css" />
+		<link rel="stylesheet" type="text/css" href="./css/bootstrap.css" />
+		<link rel="stylesheet" type="text/css" href="./css/textAngular_style.css" />
+		<link rel="stylesheet" type="text/css" href="./template/aside_Nav.css" />
 		<link rel="stylesheet" type="text/css" href="./css/index.css" />
 	</head>
 	<body ng-controller='myController'>
-		<div class='background' ng-show='showLogin'></div>
+		
+		<div class='realtimebox'>
+			<div class='left_nav'>
+				<accordion>
+					<expander ng-repeat='group in user_groups' group-title='group.channel' image-items='group.members'></expander>
+				</accordion>
+				<div class='nav_bottom'>
+					<div class='head_img'></div>
+					<div id='user_info'>
+						<span id='info_name'>{{user.name}}</span><br/>
+						<span id='info_status'><i class='fa fa-circle highlight'></i>&nbsp;&nbsp;Online</span>
+					</div>
+					<div id='addChannel_icon' ng-click='popChannelForm($event)'><i class='fa fa-plus-square fa-2x'></i></div>
+				</div>
+			</div>
+			<div class='box_body'>
+				<div id='msg_container'>
+					<ul>	
+						<li  class='msg' ng-repeat='item in realtimeContent'>
+							<div class='msg_img' ng-class="{true:'right',false:'left'}[item.isMe]" ></div>
+							<div class='msg_username' ng-class="{true:'right',false:'left'}[item.isMe]">{{item.username}}</div>
+							<div class='msg_time' ng-class="{true:'right',false:'left'}[item.isMe]">{{item.timestamp}}</div>
+							<div class='clear'></div>
+							<div class='msg_content' ng-class="{true:'_right',false:'_left'}[item.isMe]">{{item.Me}}{{item.content}}</div>
+							
+						</li>
+					</ul>
+				</div>
+				<div id='editor_container'>
+
+					<div id='editor'>
+						<text-angular ng-model="htmlVariable"></text-angular>
+				    </div>
+				    <span class='icon_button ' id='submit_icon' ng-click='submitMsg($event)'>Push</span>
+				</div>
+			</div>
+		</div>
+		<div class='background' ng-show='showLogin||channelFormShow'></div>
 		<div class='loginbox' ng-show='showLogin'>
 			<form name='login_form'  ng-submit='userSubmit()'>
 			<ul class='login_ul'>
 				<li class='login_item' >
 					{{user.key}}<br/>
-					<span class="add-on"><i class="icon-user"></i></span>
+					<span class="add-on"><i class="fa fa-user"></i></span>
 					<input placeholder='Your Name' name='username' ng-pattern='user.pattern' style='width:200px' ng-model='user.name' required/>
-					<span  ng-show="login_form.username.$dirty && login_form.username.$error.pattern"><i class="icon-exclamation-sign"></i></span>
-					<span  ng-show="login_form.username.$dirty && login_form.username.$valid"><i class="icon-ok"></i></span>
+					<span  ng-show="login_form.username.$dirty && login_form.username.$error.pattern"><i class="fa fa-exclamation-circle"></i></span>
+					<span  ng-show="login_form.username.$dirty && login_form.username.$valid"><i class="fa fa-check"></i></span>
 					<!--<span  ng-show="login_form.username.$pristine "><i class="icon-magic"></i></span>-->
 					
 					
@@ -30,25 +71,33 @@
 		    </span>
 			</form>
 		</div>
-		<div class='realtimebox'>
-			<div class='left_nav'>
-				<accordion>
-					<expander ng-repeat='group in user_groups' group-title='group.channel' image-items='group.members'></expander>
-				</accordion>
-				<div class='nav_bottom'>
-					<div class='head_img'></div>
-					<div id='user_info'>
-						<span id='info_name'>{{user.name}}</span><br/>
-						<span id='info_status'><i class='icon-circle highlight'></i>&nbsp;&nbsp;Online</span>
-					</div>
-				</div>
-			</div>
-
-
+		<div  class='loginbox out' ng-class="{'in':channelFormShow}">
+			<form name='channel_form' ng-submit='addChannel()'>
+				<ul class='login_ul'>
+				<li class='login_item' >
+					Channel Name<br/>
+					<span class="add-on"><i class="fa fa-github"></i></span>
+					<input placeholder='Channel Name' name='channelname' ng-pattern='/^\w+$/' style='width:200px' ng-model='new_channel' required/>
+					<span  ng-show="channel_form.channelname.$dirty && channel_form.channelname.$error.pattern"><i class="fa fa-exclamation-circle"></i></span>
+					<span  ng-show="channel_form.channelname.$dirty && channel_form.channelname.$valid"><i class="fa fa-check"></i></span>
+					<!--<span  ng-show="login_form.username.$pristine "><i class="icon-magic"></i></span>-->
+					
+					
+					<div class='login_item_tip'>以字母和数字组成</div>
+				</li>
+			</ul>
+			<span id='submit_icon_area'>
+			<input type='submit'  class='icon_button blue'  value='Add Channel'  ng-disabled='channel_form.$invalid'/>
+		    </span>
+			</form>
 		</div>
 	</body>
 	<script src="./js/socket.io.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src='./js/angular.js'></script>
+	<script src='./js/textAngular-rangy.min.js'></script>
+	<script src='./js/textAngular-sanitize.min.js'></script>
+	<script src='./js/textAngular.min.js'></script>
 	<script src='./directive.js'></script>
 	<script src='./index.js'></script>
 </html>
