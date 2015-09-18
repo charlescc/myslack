@@ -104,8 +104,10 @@ app.controller('myController', function($scope, userService) {
 	var onlineUsers_adapter = function(onlineUsers, callback) {
 		for (var i in onlineUsers) {
 			if (onlineUsers.hasOwnProperty(i)) {
+				var index=0;
 				for (var j in onlineUsers[i]) {
 					if (onlineUsers[i].hasOwnProperty(j)) {
+						index = 1;
 						callback({
 							username: onlineUsers[i][j],
 							userid: j,
@@ -114,6 +116,11 @@ app.controller('myController', function($scope, userService) {
 					}
 
 				}
+				if(index == 1) break;
+				callback({
+					channel: i
+				});
+
 
 			}
 		}
@@ -144,21 +151,26 @@ app.controller('myController', function($scope, userService) {
 
 				var index = channel_ExistInGroup(user_obj.channel);
 				if (!isNaN(index)) { //当前channel存在
-
-					$scope.user_groups[index].members.push({
-						name: user_obj.username,
-						highlight: user_obj.username == $scope.user.name ? 1 : undefined,
-						url: undefined
-					});
-				} else { //当前channel不存在
-					$scope.user_groups.push({
-						channel: user_obj.channel,
-						members: [{
+					if (typeof user_obj.username != 'undefined') {
+						$scope.user_groups[index].members.push({
 							name: user_obj.username,
 							highlight: user_obj.username == $scope.user.name ? 1 : undefined,
 							url: undefined
-						}]
-					});
+						});
+					}
+				} else { //当前channel不存在
+					var obj = {
+						channel: user_obj.channel,
+						members: []
+					};
+					if (typeof user_obj.username != 'undefined') {
+						obj.members.push({
+							name: user_obj.username,
+							highlight: user_obj.username == $scope.user.name ? 1 : undefined,
+							url: undefined
+						});
+					}
+					$scope.user_groups.push(obj);
 					All_Channel_Content[user_obj.channel] = [];
 				}
 			});
