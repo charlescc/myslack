@@ -47,6 +47,8 @@ html{
 	font-size: 20px;
 }
 .login_ul{
+	margin: 0;
+    padding: 0;
 	position: absolute;
 	left:50%;
 	top:50%;
@@ -302,11 +304,11 @@ html{
 .msg{
 	list-style: none;
 	width: 100%;
-	padding: 15px 10px;
+	padding: 15px 100px;
 	position: relative;
 }
 .msg_username{
-	margin:0 10px 0 10px;
+	margin:5px 10px 0 10px;
 	height:20px;
 	font-weight: 600;
 	font-size: 20px;
@@ -317,11 +319,20 @@ html{
 	color: grey;
 	font-size: 17px;
 	line-height: 21px;
+	margin-top: 5px;
 
 }
 
 .msg_content{
-	margin-top: -15px;
+	
+	
+	width: 50%;
+}
+.msg_content img{
+	height:150px;
+	width:150px;
+	border-radius: 10px;
+	vertical-align: baseline;
 }
 .msg_img{
 	height:50px;
@@ -336,12 +347,14 @@ html{
 }
 ._right{
 	float: right;
-	margin-right: 60px;
+	text-align: right;
+	padding-right: 110px;
 
 }
 ._left{
 	float: left;
-	margin-left: 60px;
+	text-align: left;
+	padding-left: 110px;
 
 }
 @keyframes  myrotate{
@@ -362,5 +375,10 @@ html{
 	width: 80px;
 	background-size: contain;
 	border: thin solid grey;
+	cursor: pointer;
+	border-radius: 2px;
 
+}
+.head_item:hover{
+	border: 3px solid #66afe9 ;
 }

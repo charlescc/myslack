@@ -42,4 +42,8 @@
 .highlight{
 	color: rgba(36,239,12,1);
 }
-
+.tips_on{
+	float: right;
+    margin-right: 40px;
+    
+}

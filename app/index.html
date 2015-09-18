@@ -17,7 +17,7 @@
 		<div class='realtimebox'>
 			<div class='left_nav'>
 				<accordion>
-					<expander ng-repeat='group in user_groups' group-title='group.channel' image-items='group.members'></expander>
+					<expander ng-repeat='group in user_groups' group-title='group.channel' image-items='group.members' group-tips='group.tips'></expander>
 				</accordion>
 				<div class='nav_bottom'>
 					<div class='head_img' ng-style="{'background-image':'url({{user.url}})'}" ng-click='popHeadForm($event)'></div>
@@ -32,12 +32,16 @@
 				<div id='msg_container'>
 					<ul>	
 						<li  class='msg' ng-repeat='item in realtimeContent'>
+							
 							<div class='msg_img' ng-class="{true:'right',false:'left'}[item.isMe]" ng-style="{'background-image':'url({{item.url}})'}"></div>
-							<div class='msg_username' ng-class="{true:'right',false:'left'}[item.isMe]">{{item.username}}</div>
-							<div class='msg_time' ng-class="{true:'right',false:'left'}[item.isMe]">{{item.timestamp}}</div>
+							
+								<div class='msg_username' ng-class="{true:'right',false:'left'}[item.isMe]" >{{item.username}}</div>
+								<div class='msg_time'  ng-class="{true:'right',false:'left'}[item.isMe]">{{item.timestamp}}</div>
+							
+							
 							<div class='clear'></div>
 							<div class='msg_content'  ng-class="{true:'_right',false:'_left'}[item.isMe]"><span ng-bind-html="item.content"></span></div>
-							
+							<div class='clear'></div>
 						</li>
 					</ul>
 				</div>
@@ -95,7 +99,7 @@
 		<div class='loginbox out' ng-class="{'in':headFormShow}">
 			<span class='cancel_icon' ng-click='cancelHeadChange()'><i class='fa fa-times'></i></span>
 			<ul class='login_ul' id='head_ul'>
-				<li class='head_item left' ng-repeat='head in all_heads' ng-style="{'background-image':'url({{head}})'}" >				
+				<li class='head_item left' ng-repeat='head in all_heads' ng-style="{'background-image':'url({{head}})'}" ng-click='selectHeadImg($event,$index)' >				
 				</li>
 				<div class='clear'></div>
 			</ul>

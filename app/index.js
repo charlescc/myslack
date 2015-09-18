@@ -58,7 +58,7 @@ app.service('userService', function($rootScope) {
 
 			$rootScope.$broadcast('changeUserChannel', obj);
 		});
-		socket.on('pushHeads',function(obj){
+		socket.on('pushHeads', function(obj) {
 			$rootScope.$broadcast('refreshHeads', obj);
 		});
 	}
@@ -116,8 +116,15 @@ app.controller('myController', function($scope, userService) {
 	$scope.cancelAddChannel = function() {
 		$scope.channelFormShow = false;
 	}
-	$scope.cancelHeadChange = function(){
+	$scope.cancelHeadChange = function() {
 		$scope.headFormShow = false;
+	}
+	$scope.selectHeadImg = function(e, index) {
+		e.stopPropagation();
+		$scope.headFormShow = false;
+		$scope.user.url = $scope.all_heads[index];
+		//这里改变后ng-style里面不双向绑定
+		$('.head_img').css("background-image", "url(" + $scope.user.url + ")");
 	}
 	$scope.addChannel = function() {
 		var temp_channel = $scope.new_channel;
@@ -130,15 +137,15 @@ app.controller('myController', function($scope, userService) {
 		e.stopPropagation();
 		$scope.channelFormShow = true;
 	}
-	$scope.popHeadForm = function(e){
+	$scope.popHeadForm = function(e) {
 		e.stopPropagation();
 		$scope.headFormShow = true;
-		
+
 	}
-	$scope.$on('refreshHeads',function (e,obj){
-		$scope.all_heads=[];
-		for(var i=0;i<obj.heads.length;i++){
-			var new_path=obj.heads[i].replace(/\\/g,'/');
+	$scope.$on('refreshHeads', function(e, obj) {
+		$scope.all_heads = [];
+		for (var i = 0; i < obj.heads.length; i++) {
+			var new_path = obj.heads[i].replace(/\\/g, '/');
 			//console.log(new_path);
 			$scope.all_heads.push(new_path);
 		}
@@ -155,7 +162,7 @@ app.controller('myController', function($scope, userService) {
 							username: onlineUsers[i][j],
 							userid: j,
 							channel: i,
-							
+
 
 						});
 					}
@@ -202,7 +209,7 @@ app.controller('myController', function($scope, userService) {
 							name: user_obj.username,
 							id: user_obj.userid,
 							highlight: user_obj.username == $scope.user.name ? 1 : undefined,
-							
+
 						});
 					}
 				} else { //当前channel不存在
@@ -215,7 +222,7 @@ app.controller('myController', function($scope, userService) {
 							name: user_obj.username,
 							id: user_obj.userid,
 							highlight: user_obj.username == $scope.user.name ? 1 : undefined,
-							
+
 						});
 					}
 					$scope.user_groups.push(obj);
@@ -285,7 +292,7 @@ app.controller('myController', function($scope, userService) {
 
 	});
 	//$scope.join
-	$scope.$on('pushUserMsg', function (e, isMe, username, channel, img_url, timestamp, content, msgid) {
+	$scope.$on('pushUserMsg', function(e, isMe, username, channel, img_url, timestamp, content, msgid) {
 		if (channel == activeChannel) { //当前活动channel来了新消息
 			$scope.realtimeContent.push({
 				url: img_url,
@@ -296,9 +303,17 @@ app.controller('myController', function($scope, userService) {
 				msgid: msgid
 			});
 			$('#msg_container').animate({
-				scrollTop: $(msg_container).height()
+				scrollTop: $('#msg_container>ul').height()
 			}, "slow");
 
+		} else {//不是activechannel的消息在对应channel上tips+1
+			var index = channel_ExistInGroup(channel);
+			var tips = $scope.user_groups[index].tips;
+			if (typeof tips == 'undefined') {
+				$scope.user_groups[index].tips = 1;
+			} else {
+				$scope.user_groups[index].tips++;
+			}
 		}
 		All_Channel_Content[channel].push({
 			url: img_url,

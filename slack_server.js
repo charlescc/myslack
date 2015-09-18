@@ -234,7 +234,7 @@ module.exports = function(grunt, config) {
          socket_array[i].emit('message',obj);
        }*/
       io.emit('message', obj);
-      console.log(obj.username + '在' + obj.channel + 'channel中说：' + obj.content);
+      console.log(obj.username + '在' + obj.channel + 'channel中发表一句话');
     });
     //监听用户跳转channel
     socket.on('changeChannel', function(obj) {
