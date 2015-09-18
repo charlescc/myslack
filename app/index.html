@@ -20,7 +20,7 @@
 					<expander ng-repeat='group in user_groups' group-title='group.channel' image-items='group.members'></expander>
 				</accordion>
 				<div class='nav_bottom'>
-					<div class='head_img'></div>
+					<div class='head_img' ng-style="{'background-image':'url({{user.url}})'}" ng-click='popHeadForm($event)'></div>
 					<div id='user_info'>
 						<span id='info_name'>{{user.name}}</span><br/>
 						<span id='info_status'><i class='fa fa-circle highlight'></i>&nbsp;&nbsp;Online</span>
@@ -32,11 +32,11 @@
 				<div id='msg_container'>
 					<ul>	
 						<li  class='msg' ng-repeat='item in realtimeContent'>
-							<div class='msg_img' ng-class="{true:'right',false:'left'}[item.isMe]" ></div>
+							<div class='msg_img' ng-class="{true:'right',false:'left'}[item.isMe]" ng-style="{'background-image':'url({{item.url}})'}"></div>
 							<div class='msg_username' ng-class="{true:'right',false:'left'}[item.isMe]">{{item.username}}</div>
 							<div class='msg_time' ng-class="{true:'right',false:'left'}[item.isMe]">{{item.timestamp}}</div>
 							<div class='clear'></div>
-							<div class='msg_content' ng-class="{true:'_right',false:'_left'}[item.isMe]">{{item.Me}}{{item.content}}</div>
+							<div class='msg_content'  ng-class="{true:'_right',false:'_left'}[item.isMe]"><span ng-bind-html="item.content"></span></div>
 							
 						</li>
 					</ul>
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 		</div>
-		<div class='background' ng-show='showLogin||channelFormShow'></div>
+		<div class='background' ng-show='showLogin||channelFormShow||headFormShow'></div>
 		<div class='loginbox' ng-show='showLogin'>
 			<form name='login_form'  ng-submit='userSubmit()'>
 			<ul class='login_ul'>
@@ -72,6 +72,7 @@
 			</form>
 		</div>
 		<div  class='loginbox out' ng-class="{'in':channelFormShow}">
+			<span class='cancel_icon' ng-click='cancelAddChannel()'><i class='fa fa-times'></i></span>
 			<form name='channel_form' ng-submit='addChannel()'>
 				<ul class='login_ul'>
 				<li class='login_item' >
@@ -91,9 +92,18 @@
 		    </span>
 			</form>
 		</div>
+		<div class='loginbox out' ng-class="{'in':headFormShow}">
+			<span class='cancel_icon' ng-click='cancelHeadChange()'><i class='fa fa-times'></i></span>
+			<ul class='login_ul' id='head_ul'>
+				<li class='head_item left' ng-repeat='head in all_heads' ng-style="{'background-image':'url({{head}})'}" >				
+				</li>
+				<div class='clear'></div>
+			</ul>
+			
+		</div>
 	</body>
 	<script src="./js/socket.io.js"></script>
-	<script src=".js/jquery.min.js"></script>
+	<script src="./js/jquery.min.js"></script>
 	<script src='./js/angular.js'></script>
 	<script src='./js/textAngular-rangy.min.js'></script>
 	<script src='./js/textAngular-sanitize.min.js'></script>

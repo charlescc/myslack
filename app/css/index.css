@@ -39,6 +39,13 @@ html{
 	animation:flyin 1s ease-out 1;
 	top: 40%;
 }
+.cancel_icon{
+	position: absolute;
+	right:20px;
+	top:20px;
+	cursor:pointer;
+	font-size: 20px;
+}
 .login_ul{
 	position: absolute;
 	left:50%;
@@ -209,7 +216,7 @@ html{
 	width: 50px;
 	height: 50px;
 	border-radius: 25px;
-	background: url("../img/head.jpeg") no-repeat center;
+	background: url("../img/head_1.jpeg") no-repeat center;
 	background-size: contain;
 	vertical-align: middle;
 }
@@ -320,6 +327,8 @@ html{
 	height:50px;
 	width: 50px;
 	border: thin solid grey;
+	border-radius: 5px;
+	background-size: contain;
 }
 .clear{
 	clear:both;
@@ -327,12 +336,12 @@ html{
 }
 ._right{
 	float: right;
-	margin-right: 50px;
+	margin-right: 60px;
 
 }
 ._left{
 	float: left;
-	margin-left: 50px;
+	margin-left: 60px;
 
 }
 @keyframes  myrotate{
@@ -342,4 +351,16 @@ html{
 }
 #addChannel_icon:hover{
 	animation:myrotate 0.1s linear 1;
-};
+}
+#head_ul{
+	height: 250px;
+	width:450px;
+	overflow: auto;
+}
+.head_item{
+	height: 80px;
+	width: 80px;
+	background-size: contain;
+	border: thin solid grey;
+
+}

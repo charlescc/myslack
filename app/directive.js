@@ -39,11 +39,13 @@ app.directive('expander', function() {
 			accordionController.addExpander(scope);
 			if(scope.title == 'default'){
 				scope.showList=true;
+
 			}
 			scope.toggleList = function(e) {
 				e.stopPropagation();
 				accordionController.gotOpened(scope);
 				scope.showList ? scope.showList = false : scope.showList = true;
+				if(scope.showList == true) scope.$emit('activeChannel_change',scope.title);
 			}
 		}
 	}
