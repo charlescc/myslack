@@ -101,10 +101,11 @@ module.exports = function(grunt, config) {
             return;
           }
           if (stat.isFile()) {
-            //console.log(process.cwd());
+            //console.log(path.sep);
+            //console.log(process.cwd()+path.sep+'app');
             //console.log(_path + path.sep + file);
 
-            callback(path.relative(process.cwd()+path.seq+'app', _path + path.sep + file));
+            callback(path.relative(process.cwd()+path.sep+'app', _path + path.sep + file));
           }
         });
 
@@ -115,7 +116,7 @@ module.exports = function(grunt, config) {
   var head_url_array = [];
 
   getJpegsFromFiles('./app/img/', function(jpeg_url) {
-    console.log(jpeg_url);
+   // console.log(jpeg_url);
     head_url_array.push(jpeg_url);
   });
   io.on('connection', function(socket) {
@@ -237,7 +238,19 @@ module.exports = function(grunt, config) {
     });
     //监听用户跳转channel
     socket.on('changeChannel', function(obj) {
+      //提醒别的用户当前用户的转channel行为
       io.emit('changeChannel', obj);
+      //在onlineUsers对象中更改当前用户的channel
+      var to_channel=obj.channel;
+      var uid= obj.userid;
+      var username = obj.username;
+      for(var x in onlineUsers){
+        if(onlineUsers.hasOwnProperty(x)){
+          delete onlineUsers[x][uid];
+        }
+      }
+      onlineUsers[to_channel][uid] = username;
+
       console.log(obj.username + '跳转入channel ' + obj.channel);
 
     });

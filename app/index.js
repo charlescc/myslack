@@ -139,7 +139,7 @@ app.controller('myController', function($scope, userService) {
 		$scope.all_heads=[];
 		for(var i=0;i<obj.heads.length;i++){
 			var new_path=obj.heads[i].replace(/\\/g,'/');
-			console.log(new_path);
+			//console.log(new_path);
 			$scope.all_heads.push(new_path);
 		}
 		//$scope.all_heads = obj.heads;
@@ -161,7 +161,7 @@ app.controller('myController', function($scope, userService) {
 					}
 
 				}
-				if (index == 1) break;
+				if (index == 1) continue;
 				callback({
 					channel: i
 				});
@@ -301,6 +301,7 @@ app.controller('myController', function($scope, userService) {
 
 		}
 		All_Channel_Content[channel].push({
+			url: img_url,
 			username: username,
 			timestamp: timestamp,
 			isMe: isMe,
