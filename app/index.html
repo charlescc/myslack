@@ -61,7 +61,7 @@
 				<li class='login_item' >
 					{{user.key}}<br/>
 					<span class="add-on"><i class="fa fa-user"></i></span>
-					<input placeholder='Your Name' name='username' ng-pattern='user.pattern' style='width:200px' ng-model='user.name' required/>
+					<input placeholder='Your Name' name='username' ng-pattern='user.pattern'  ng-model='user.name' required/>
 					<span  ng-show="login_form.username.$dirty && login_form.username.$error.pattern"><i class="fa fa-exclamation-circle"></i></span>
 					<span  ng-show="login_form.username.$dirty && login_form.username.$valid"><i class="fa fa-check"></i></span>
 					<!--<span  ng-show="login_form.username.$pristine "><i class="icon-magic"></i></span>-->

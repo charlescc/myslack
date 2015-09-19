@@ -57,18 +57,23 @@ html{
 	    -ms-transform:translate(-50%,-50%);
 	     -o-transform:translate(-50%,-50%);
 	        transform:translate(-50%,-50%);
+	width: 100%;       
 }
 .login_item{
    
-   min-width: 550px;
+   min-width: 250px;
    list-style: none;
    height:150px;
    font-size: 25px;
+   margin: 0 auto;
+    width: 50%;
 
 }
 .login_item input{
 	display: inline-block;
-	min-width:400px;
+	
+	width: 80%;
+    min-width: 200px;
 	min-height:40px;
 	font-size: 20px;
 	border-radius: 5px;
